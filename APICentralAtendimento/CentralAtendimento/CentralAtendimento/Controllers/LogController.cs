@@ -123,28 +123,76 @@ namespace CentralAtendimento.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("tickets/{siteId}/{clienteId}/compra/{compraID}")]
+        public HttpStatusCode CreateTicketForPurchase(string siteId, string clienteId, string compraID, Messages msg)
+        {
+            if (db.SiteResitersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    Tickets tktToDb = new Tickets();
+                    Messages msgToDb = new Messages();
+
+                    tktToDb.TicketId = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString();
+                    tktToDb.ClienteId = clienteId;
+                    tktToDb.CompraId = compraID;
+                    tktToDb.SiteId = siteId;
+                    tktToDb.StatusId = Status.Open;
+                    tktToDb.MessagesList = new List<Messages>();
+                    tktToDb.MessagesList.Add(msg);
+
+                    db.TicketsDb.Add(tktToDb);
+                    db.MessagesDb.Add(msg);
+
+                    db.SaveChanges();
+
+                    return HttpStatusCode.Created;
+                }
+
+                return HttpStatusCode.BadRequest;
+            }
+            else
+            {
+                return HttpStatusCode.BadRequest;
+            }
+        }
+
+        [HttpPut]
+        [Route("tickets/{siteId}/{clienteId}/id/{ticketID}")]
+        public HttpStatusCode AddMsgToTicket(string siteId, string clienteId, string ticketId, Messages msg)
+        {
+            if (db.SiteResitersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    var tktToDb = db.TicketsDb.Include(n => n.MessagesList).Where(n => n.ClienteId == clienteId).Where(a => a.TicketId == ticketId);
+
+                    tktToDb.MessagesList.Add(msg);
+                    db.MessagesDb.Add(msg);
+
+                    db.SaveChanges();
+
+                    return HttpStatusCode.Accepted;
+                }
+
+                return HttpStatusCode.BadRequest;
+            }
+            else
+            {
+                return HttpStatusCode.BadRequest;
+            }
+        }
+
+
+
         /*
 
-            (POST)~/tickets/<CPF>/compra/<purch_ID>
-            REQUEST:
-            {
-	            message: <string>
-            }
-            RESPONSE: Http.OK ou Http.BadRequest
-            {
-	            sys_message: <string>
-            }
-
-            (PUT)~/tickets/<CPF>/id/<ticket_ID>
-            REQUEST:
-            {
-	            message: <string>
-            }
-            RESPONSE: Http.OK ou Http.BadRequest
             {
 	            sys_message: <string>
             }
             (DELETE)~/tickets/<CPF>/id/<ticket_ID> -> precisaria de uma mensagem ou item no link para saber se é CANCEL ou CLOSE
          */
+
     }
 }
