@@ -105,7 +105,12 @@ namespace CentralAtendimento.Controllers
 		{
 			SystemMessages sysMsg = new SystemMessages();
 
-			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			if (msg == null)
+			{
+				sysMsg.SystemMessage = "Message cannot be empty!";
+				return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
+			}
+			else if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
 			{
 				if (ModelState.IsValid)
 				{
@@ -151,7 +156,12 @@ namespace CentralAtendimento.Controllers
 		{
 			SystemMessages sysMsg = new SystemMessages();
 
-			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			if (msg == null)
+			{
+				sysMsg.SystemMessage = "Message cannot be empty!";
+				return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
+			}
+			else if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
 			{
 				if (ModelState.IsValid)
 				{
@@ -197,8 +207,12 @@ namespace CentralAtendimento.Controllers
 		public HttpResponseMessage AddMsgToTicket(HttpRequestMessage request, string siteId, string clienteId, string ticketId, Messages msg)
 		{
 			SystemMessages sysMsg = new SystemMessages();
-
-			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			if (msg == null)
+			{
+				sysMsg.SystemMessage = "Message cannot be empty!";
+				return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
+			}
+			else if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
 			{
 				var tktInDb = db.TicketsDb.Include(m => m.MessagesList)
 											.Where(t => t.TicketId == ticketId)
@@ -247,9 +261,14 @@ namespace CentralAtendimento.Controllers
 		{
 			SystemMessages sysMsg = new SystemMessages();
 
-			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			if(msg == null)
 			{
-				if (Enum.IsDefined(typeof(Status), code))
+				sysMsg.SystemMessage = "Message cannot be empty!";
+				return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
+			}
+			else if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			{
+				if (!Enum.IsDefined(typeof(Status), code))
 				{
 					sysMsg.SystemMessage = "Invalid code!";
 					return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
