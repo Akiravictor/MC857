@@ -294,5 +294,26 @@ namespace CentralAtendimento.Controllers
 				return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
 			}
 		}
+
+		[HttpGet]
+		[Route("tickets/all/{senha}")]
+		public Logs AllTicketsDEBUG(string senha)
+		{
+			Logs logResponse = new Logs();
+
+			if (senha.Equals("CentralClientesMC857"))
+			{
+				var tkts = db.TicketsDb.Include(n => n.MessagesList).ToList();
+
+				logResponse.TicketSize = tkts.Count;
+				logResponse.TicketsList = tkts;
+
+				foreach (var tkt in tkts)
+				{
+					tkt.MessageSize = tkt.MessagesList.Count;
+				}
+			}
+			return logResponse;
+		}
 	}
 }
