@@ -30,7 +30,7 @@ namespace CentralAtendimento.Controllers
 		{
 			Logs logResponse = new Logs();
 
-			if (db.SiteResitersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
 			{
 				var tkts = db.TicketsDb.Include(n => n.MessagesList)
 											.Where(t => t.ClienteId == clienteId)
@@ -54,7 +54,7 @@ namespace CentralAtendimento.Controllers
 		{
 			Logs logResponse = new Logs();
 
-			if (db.SiteResitersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
 			{
 				var tkts = db.TicketsDb.Include(n => n.MessagesList)
 											.Where(t => t.ClienteId == clienteId)
@@ -79,7 +79,7 @@ namespace CentralAtendimento.Controllers
 		{
 			Logs logResponse = new Logs();
 
-			if (db.SiteResitersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
 			{
 				var tkts = db.TicketsDb.Include(n => n.MessagesList)
 										   .Where(t => t.ClienteId == clienteId)
@@ -105,7 +105,7 @@ namespace CentralAtendimento.Controllers
 		{
 			SystemMessages sysMsg = new SystemMessages();
 
-			if (db.SiteResitersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
 			{
 				if (ModelState.IsValid)
 				{
@@ -151,7 +151,7 @@ namespace CentralAtendimento.Controllers
 		{
 			SystemMessages sysMsg = new SystemMessages();
 
-			if (db.SiteResitersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
 			{
 				if (ModelState.IsValid)
 				{
@@ -198,7 +198,7 @@ namespace CentralAtendimento.Controllers
 		{
 			SystemMessages sysMsg = new SystemMessages();
 
-			if (db.SiteResitersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
 			{
 				var tktInDb = db.TicketsDb.Include(m => m.MessagesList)
 											.Where(t => t.TicketId == ticketId)
@@ -247,7 +247,7 @@ namespace CentralAtendimento.Controllers
 		{
 			SystemMessages sysMsg = new SystemMessages();
 
-			if (db.SiteResitersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
 			{
 				if (Enum.IsDefined(typeof(Status), code))
 				{
