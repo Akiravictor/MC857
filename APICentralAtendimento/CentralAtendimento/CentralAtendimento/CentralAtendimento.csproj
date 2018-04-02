@@ -197,6 +197,10 @@
     <Compile Include="Migrations\201803302324528_Initial_Migration.Designer.cs">
       <DependentUpon>201803302324528_Initial_Migration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804020353516_adding_test_data.cs" />
+    <Compile Include="Migrations\201804020353516_adding_test_data.Designer.cs">
+      <DependentUpon>201804020353516_adding_test_data.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\APIDbContext.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -204,6 +208,7 @@
     <Compile Include="Models\Messages.cs" />
     <Compile Include="Models\SiteRegisters.cs" />
     <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\SystemMessages.cs" />
     <Compile Include="Models\Tickets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -238,6 +243,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\CentralAtendimento-MC857 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\CentralAtendimento-MC857 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -281,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803302324528_Initial_Migration.resx">
       <DependentUpon>201803302324528_Initial_Migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804020353516_adding_test_data.resx">
+      <DependentUpon>201804020353516_adding_test_data.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
