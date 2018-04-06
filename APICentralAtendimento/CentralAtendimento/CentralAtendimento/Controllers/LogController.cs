@@ -26,12 +26,16 @@ namespace CentralAtendimento.Controllers
 		}
 
 		/// <summary>
-		/// Retorna todos os Tickets de um usuário
+		/// Método para obter todos os Tickets de um site/módulo criados por um determinado Cliente.
 		/// </summary>
 		/// <param name="request"></param>
 		/// <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
 		/// <param name="clienteId">ID do cliente</param>
-		/// <returns></returns>
+		/// <returns>Retorna um objeto JSON contendo uma lista de Tickets ou uma mensagem de erro do sistema. HTTP Response codes: 
+		/// HTTP 200 (OK) caso o Ticket seja encontrado;
+		/// HTTP 400 (Bad Request) caso haja erro;
+		/// HTTP 404 (Not Found) caso não encontre nenhum Ticket.
+		/// </returns>
 		[HttpGet]
 		[Route("tickets/{siteId}/{clienteId}")]
 		[ResponseType(typeof(Logs))]
@@ -42,21 +46,31 @@ namespace CentralAtendimento.Controllers
 			Logs logResponse = new Logs();
 			LogActions la = new LogActions();
 
-			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
-			{
-				var tkts = db.TicketsDb.Include(n => n.MessagesList)
+			var tkts = db.TicketsDb.Include(n => n.MessagesList)
 											.Where(t => t.ClienteId == clienteId)
 											.Where(t => t.SiteId == siteId).ToList();
 
-				logResponse.TicketSize = tkts.Count;
-				logResponse.TicketsList = tkts;
-
-				foreach (var tkt in tkts)
+			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			{
+				if(tkts.Count == 0)
 				{
-					tkt.MessageSize = tkt.MessagesList.Count;
+					sysMsg.SystemMessage = "ClienteId not found!";
+					la.SaveLog("GET", siteId, sysMsg.SystemMessage);
+					return request.CreateResponse(HttpStatusCode.NotFound, sysMsg);
 				}
+				else
+				{
+					logResponse.TicketSize = tkts.Count;
+					logResponse.TicketsList = tkts;
 
-				la.SaveLog("GET", siteId, string.Format("Get all Tickets for {0}", clienteId));
+					foreach (var tkt in tkts)
+					{
+						tkt.MessageSize = tkt.MessagesList.Count;
+					}
+
+					la.SaveLog("GET", siteId, string.Format("Get all Tickets for {0}", clienteId));
+					return request.CreateResponse(HttpStatusCode.OK, logResponse);
+				}
 
 			}
 			else
@@ -65,18 +79,20 @@ namespace CentralAtendimento.Controllers
 				sysMsg.SystemMessage = "Site key provided not recognized!";
 				return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
 			}
-
-			return request.CreateResponse(HttpStatusCode.OK, logResponse);
 		}
 
 		/// <summary>
-		/// Retorna todas as mensagens de um determinado Ticket de acordo com o ID da compra
+		/// Método para obter o Ticket de uma Compra criado por um determinado Cliente.
 		/// </summary>
 		/// <param name="request"></param>
 		/// <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
 		/// <param name="clienteId">ID do cliente</param>
 		/// <param name="compraId">ID da compra</param>
-		/// <returns></returns>
+		/// <returns>Retorna um objeto JSON contendo uma lista de Tickets ou uma Mensagem de Erro do Sistema. HTTP Response codes:
+		/// HTTP 200 (OK) caso o Ticket seja encontrado;
+		/// HTTP 400 (Bad Request) caso haja erro;
+		/// HTTP 404 (Not Found) caso não encontre nenhum Ticket.
+		/// </returns>
 		[HttpGet]
 		[Route("tickets/{siteId}/{clienteId}/compra/{compraId}")]
 		[ResponseType(typeof(Logs))]
@@ -87,23 +103,32 @@ namespace CentralAtendimento.Controllers
 			Logs logResponse = new Logs();
 			LogActions la = new LogActions();
 
-			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
-			{
-				var tkts = db.TicketsDb.Include(n => n.MessagesList)
+			var tkts = db.TicketsDb.Include(n => n.MessagesList)
 											.Where(t => t.ClienteId == clienteId)
 											.Where(t => t.CompraId == compraId)
 											.Where(t => t.SiteId == siteId).ToList();
 
-				logResponse.TicketSize = tkts.Count;
-				logResponse.TicketsList = tkts;
-
-				foreach (var tkt in tkts)
+			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			{
+				if (tkts.Count == 0)
 				{
-					tkt.MessageSize = tkt.MessagesList.Count;
+					sysMsg.SystemMessage = "ClienteId or CompraId not found!";
+					la.SaveLog("GET", siteId, sysMsg.SystemMessage);
+					return request.CreateResponse(HttpStatusCode.NotFound, sysMsg);
 				}
+				else
+				{
+					logResponse.TicketSize = tkts.Count;
+					logResponse.TicketsList = tkts;
 
-				la.SaveLog("GET", siteId, string.Format("Get Tickets for {0} by Purchase: {1}", clienteId, compraId));
+					foreach (var tkt in tkts)
+					{
+						tkt.MessageSize = tkt.MessagesList.Count;
+					}
 
+					la.SaveLog("GET", siteId, string.Format("Get Tickets for {0} by Purchase: {1}", clienteId, compraId));
+					return request.CreateResponse(HttpStatusCode.OK, logResponse);
+				}
 			}
 			else
 			{
@@ -111,18 +136,20 @@ namespace CentralAtendimento.Controllers
 				sysMsg.SystemMessage = "Site key provided not recognized!";
 				return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
 			}
-
-			return request.CreateResponse(HttpStatusCode.OK, logResponse);
 		}
 
 		/// <summary>
-		/// Retorna todas as mensagens de um determinado Ticket de acordo com o ID do ticket
+		/// Método para obter o Ticket específico gerado por um Cliente.
 		/// </summary>
 		/// <param name="request"></param>
 		/// <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
 		/// <param name="clienteId">ID do cliente</param>
 		/// <param name="ticketId">ID do ticket</param>
-		/// <returns></returns>
+		/// <returns>Retorna um objeto JSON contendo uma lista de Tickets ou uma Mensagem de Erro do Sistema. HTTP Response codes:
+		/// HTTP 200 (OK) caso o Ticket seja encontrado;
+		/// HTTP 400 (Bad Request) caso haja erro;
+		/// HTTP 404 (Not Found) caso não encontre nenhum Ticket.
+		/// </returns>
 		[HttpGet]
 		[Route("tickets/{siteId}/{clienteId}/ticket/{ticketId}")]
 		[ResponseType(typeof(Logs))]
@@ -133,22 +160,33 @@ namespace CentralAtendimento.Controllers
 			Logs logResponse = new Logs();
 			LogActions la = new LogActions();
 
-			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
-			{
-				var tkts = db.TicketsDb.Include(n => n.MessagesList)
+			var tkts = db.TicketsDb.Include(n => n.MessagesList)
 										   .Where(t => t.ClienteId == clienteId)
 										   .Where(t => t.TicketId == ticketId)
 										   .Where(t => t.SiteId == siteId).ToList();
 
-				logResponse.TicketSize = tkts.Count;
-				logResponse.TicketsList = tkts;
-
-				foreach (var tkt in tkts)
+			if (db.SiteRegistersDb.FirstOrDefault(s => s.SiteKey == siteId) != null)
+			{
+				if (tkts.Count == 0)
 				{
-					tkt.MessageSize = tkt.MessagesList.Count;
+					sysMsg.SystemMessage = "ClienteId or TicketId not found!";
+					la.SaveLog("GET", siteId, sysMsg.SystemMessage);
+					return request.CreateResponse(HttpStatusCode.NotFound, sysMsg);
 				}
+				else
+				{
 
-				la.SaveLog("GET", siteId, string.Format("Get Tickets for {0} by Ticket: {1}", clienteId, ticketId));
+					logResponse.TicketSize = tkts.Count;
+					logResponse.TicketsList = tkts;
+
+					foreach (var tkt in tkts)
+					{
+						tkt.MessageSize = tkt.MessagesList.Count;
+					}
+
+					la.SaveLog("GET", siteId, string.Format("Get Tickets for {0} by Ticket: {1}", clienteId, ticketId));
+					return request.CreateResponse(HttpStatusCode.OK, logResponse);
+				}
 			}
 			else
 			{
@@ -156,18 +194,19 @@ namespace CentralAtendimento.Controllers
 				sysMsg.SystemMessage = "Site key provided not recognized!";
 				return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
 			}
-
-			return request.CreateResponse(HttpStatusCode.OK, logResponse);
 		}
 
 		/// <summary>
-		/// Cria um ticket genérico para o cliente
+		/// Método para gerar um Ticket para um determinado Cliente não atrelado à nenhuma compra.
 		/// </summary>
 		/// <param name="request"></param>
 		/// <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
 		/// <param name="clienteId">ID do cliente</param>
 		/// <param name="msg">Mensagem passada atráves do Body do Request</param>
-		/// <returns></returns>
+		/// <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou o número do Ticket gerado. HTTP Response codes:
+		/// HTTP 201 (Created) caso o Ticket seja criado;
+		/// HTTP 400 (Bad Request) caso haja um erro.
+		/// </returns>
 		[HttpPost]
 		[Route("tickets/{siteId}/{clienteId}")]
 		[ResponseType(typeof(SystemMessages))]
@@ -222,14 +261,17 @@ namespace CentralAtendimento.Controllers
 		}
 
 		/// <summary>
-		/// Cria um Ticket específico para uma compra
+		/// Método para gerar um Ticket para um determinado Cliente atrelado à um Compra.
 		/// </summary>
 		/// <param name="request"></param>
 		/// <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
 		/// <param name="clienteId">ID do cliente</param>
 		/// <param name="compraID">ID da compra</param>
 		/// <param name="msg">Mensagem passada atráves do Body do Request</param>
-		/// <returns></returns>
+		/// <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou o número do Ticket gerado.HTTP Response codes:
+		/// HTTP 201 (Created) caso o Ticket seja criado;
+		/// HTTP 400 (Bad Request) caso haja um erro.
+		/// </returns>
 		[HttpPost]
 		[Route("tickets/{siteId}/{clienteId}/compra/{compraID}")]
 		[ResponseType(typeof(SystemMessages))]
@@ -285,14 +327,18 @@ namespace CentralAtendimento.Controllers
 		}
 
 		/// <summary>
-		/// Adiciona uma mensagem em um Ticket
+		/// Método para adicionar uma mensagem à um determinado Ticket de um Cliente.
 		/// </summary>
 		/// <param name="request"></param>
 		/// <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
 		/// <param name="clienteId">ID do cliente</param>
 		/// <param name="ticketId">ID do ticket</param>
 		/// <param name="msg">Mensagem passada atráves do Body do Request</param>
-		/// <returns></returns>
+		/// <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou uma confirmação de mensagem adicionada. HTTP Response codes:
+		/// HTTP 200 (OK) caso a mensagem seja adicionada corretamente;
+		/// HTTP 400 (Bad Request) caso haja um erro;
+		/// HTTP 404 (Not Found) caso o Ticket não seja encontrado.
+		/// </returns>
 		[HttpPut]
 		[Route("tickets/{siteId}/{clienteId}/ticket/{ticketId}")]
 		[ResponseType(typeof(SystemMessages))]
@@ -321,29 +367,32 @@ namespace CentralAtendimento.Controllers
 					return request.CreateResponse(HttpStatusCode.NotFound, sysMsg);
 				}
 
-				if (tktInDb.StatusId == Status.Closed || tktInDb.StatusId == Status.Canceled)
+				else if (tktInDb.StatusId == Status.Closed || tktInDb.StatusId == Status.Canceled)
 				{
 					sysMsg.SystemMessage = "Cannot change a resolved ticket!";
 					la.SaveLog("PUT", siteId, sysMsg.SystemMessage);
 					return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
 				}
 
-				if (ModelState.IsValid)
+				else if (ModelState.IsValid)
 				{
 					tktInDb.MessagesList.Add(msg);
 
 					db.MessagesDb.Add(msg);
 					db.SaveChanges();
 
-					la.SaveLog("POST", siteId, string.Format("Added a Message to ticket {0}, TicketId: {1}", clienteId, tktInDb.TicketId));
+					la.SaveLog("PUT", siteId, string.Format("Added a Message to ticket {0}, TicketId: {1}", clienteId, tktInDb.TicketId));
 
 					sysMsg.SystemMessage = string.Format("Message added successfully to Ticket {0}!", tktInDb.TicketId);
 					return request.CreateResponse(HttpStatusCode.OK, sysMsg);
 				}
 
-				sysMsg.SystemMessage = "Request is malformed!";
-				la.SaveLog("PUT", siteId, sysMsg.SystemMessage);
-				return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
+				else
+				{
+					sysMsg.SystemMessage = "Request is malformed!";
+					la.SaveLog("PUT", siteId, sysMsg.SystemMessage);
+					return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
+				}
 			}
 			else
 			{
@@ -354,7 +403,7 @@ namespace CentralAtendimento.Controllers
 		}
 
 		/// <summary>
-		/// Encerra um Ticket
+		/// Método para alterar o Estado de um determinado Ticket de um Cliente.
 		/// </summary>
 		/// <param name="request"></param>
 		/// <param name="siteId">ID único para da site (verificar contrato)</param>
@@ -362,7 +411,11 @@ namespace CentralAtendimento.Controllers
 		/// <param name="ticketId">ID do Ticket</param>
 		/// <param name="msg">Mensagem passada atráves do Body do Request</param>
 		/// <param name="code">Código de estado do Ticket</param>
-		/// <returns></returns>
+		/// <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou uma confirmação de alteração de Status do Ticket.HTTP Response codes:
+		/// HTTP 200 (OK) caso a mensagem seja adicionada corretamente e o status alterado;
+		/// HTTP 400 (Bad Request) caso haja um erro;
+		/// HTTP 404 (Not Found) caso o Ticket não seja encontrado.
+		/// </returns>
 		[HttpDelete]
 		[Route("tickets/{siteId}/{clienteId}/ticket/{ticketId}")]
 		[ResponseType(typeof(SystemMessages))]
@@ -415,7 +468,7 @@ namespace CentralAtendimento.Controllers
 
 					la.SaveLog("DELETE", siteId, string.Format("Ticket Status Code changed from {0} to {1}", tktInDb.StatusId, code));
 
-					sysMsg.SystemMessage = string.Format("Message added successfully to Ticket {0}!", tktInDb.TicketId);
+					sysMsg.SystemMessage = string.Format("Message added successfully to Ticket {0} and Status changed from {1} to {2}", tktInDb.TicketId, tktInDb.SiteId, code);
 					return request.CreateResponse(HttpStatusCode.OK, sysMsg);
 				}
 
@@ -431,33 +484,28 @@ namespace CentralAtendimento.Controllers
 			}
 		}
 
-#if DEBUG
 		/// <summary>
 		/// Metodo interno usado para DEBUG
 		/// </summary>
-		/// <param name="senha"></param>
 		/// <returns></returns>
 		[HttpGet]
-		[Route("tickets/all/{senha}")]
-		public Logs AllTicketsDEBUG(string senha)
+		[Route("tickets/all/")]
+		public Logs AllTicketsDEBUG()
 		{
 			Logs logResponse = new Logs();
 
-			if (senha.Equals("CentralClientesMC857"))
+		
+			var tkts = db.TicketsDb.Include(n => n.MessagesList).ToList();
+
+			logResponse.TicketSize = tkts.Count;
+			logResponse.TicketsList = tkts;
+
+			foreach (var tkt in tkts)
 			{
-				var tkts = db.TicketsDb.Include(n => n.MessagesList).ToList();
-
-				logResponse.TicketSize = tkts.Count;
-				logResponse.TicketsList = tkts;
-
-				foreach (var tkt in tkts)
-				{
-					tkt.MessageSize = tkt.MessagesList.Count;
-				}
+				tkt.MessageSize = tkt.MessagesList.Count;
 			}
 			return logResponse;
 		}
-#endif
 
 	}
 }

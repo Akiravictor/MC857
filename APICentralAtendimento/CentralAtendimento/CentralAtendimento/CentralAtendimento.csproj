@@ -208,6 +208,10 @@
     <Compile Include="Migrations\201804061509142_Add_InternalLog_Table.Designer.cs">
       <DependentUpon>201804061509142_Add_InternalLog_Table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804061651252_updating_SiteRegisters.cs" />
+    <Compile Include="Migrations\201804061651252_updating_SiteRegisters.Designer.cs">
+      <DependentUpon>201804061651252_updating_SiteRegisters.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\APIDbContext.cs" />
     <Compile Include="Models\CustomDateConverter.cs" />
@@ -303,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804061509142_Add_InternalLog_Table.resx">
       <DependentUpon>201804061509142_Add_InternalLog_Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804061651252_updating_SiteRegisters.resx">
+      <DependentUpon>201804061651252_updating_SiteRegisters.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

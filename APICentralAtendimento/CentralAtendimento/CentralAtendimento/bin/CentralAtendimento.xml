@@ -483,68 +483,90 @@
         </member>
         <member name="M:CentralAtendimento.Controllers.LogController.GetAllTickets(System.Net.Http.HttpRequestMessage,System.String,System.String)">
             <summary>
-            Retorna todos os Tickets de um usuário
+            Método para obter todos os Tickets de um site/módulo criados por um determinado Cliente.
             </summary>
             <param name="request"></param>
             <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
             <param name="clienteId">ID do cliente</param>
-            <returns></returns>
+            <returns>Retorna um objeto JSON contendo uma lista de Tickets ou uma mensagem de erro do sistema. HTTP Response codes: 
+            HTTP 200 (OK) caso o Ticket seja encontrado;
+            HTTP 400 (Bad Request) caso haja erro;
+            HTTP 404 (Not Found) caso não encontre nenhum Ticket.
+            </returns>
         </member>
         <member name="M:CentralAtendimento.Controllers.LogController.GetTicketsByPurchase(System.Net.Http.HttpRequestMessage,System.String,System.String,System.String)">
             <summary>
-            Retorna todas as mensagens de um determinado Ticket de acordo com o ID da compra
+            Método para obter o Ticket de uma Compra criado por um determinado Cliente.
             </summary>
             <param name="request"></param>
             <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
             <param name="clienteId">ID do cliente</param>
             <param name="compraId">ID da compra</param>
-            <returns></returns>
+            <returns>Retorna um objeto JSON contendo uma lista de Tickets ou uma Mensagem de Erro do Sistema. HTTP Response codes:
+            HTTP 200 (OK) caso o Ticket seja encontrado;
+            HTTP 400 (Bad Request) caso haja erro;
+            HTTP 404 (Not Found) caso não encontre nenhum Ticket.
+            </returns>
         </member>
         <member name="M:CentralAtendimento.Controllers.LogController.GetTicketsByTicket(System.Net.Http.HttpRequestMessage,System.String,System.String,System.String)">
             <summary>
-            Retorna todas as mensagens de um determinado Ticket de acordo com o ID do ticket
+            Método para obter o Ticket específico gerado por um Cliente.
             </summary>
             <param name="request"></param>
             <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
             <param name="clienteId">ID do cliente</param>
             <param name="ticketId">ID do ticket</param>
-            <returns></returns>
+            <returns>Retorna um objeto JSON contendo uma lista de Tickets ou uma Mensagem de Erro do Sistema. HTTP Response codes:
+            HTTP 200 (OK) caso o Ticket seja encontrado;
+            HTTP 400 (Bad Request) caso haja erro;
+            HTTP 404 (Not Found) caso não encontre nenhum Ticket.
+            </returns>
         </member>
         <member name="M:CentralAtendimento.Controllers.LogController.CreateGenericTicket(System.Net.Http.HttpRequestMessage,System.String,System.String,CentralAtendimento.Models.Messages)">
             <summary>
-            Cria um ticket genérico para o cliente
+            Método para gerar um Ticket para um determinado Cliente não atrelado à nenhuma compra.
             </summary>
             <param name="request"></param>
             <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
             <param name="clienteId">ID do cliente</param>
             <param name="msg">Mensagem passada atráves do Body do Request</param>
-            <returns></returns>
+            <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou o número do Ticket gerado. HTTP Response codes:
+            HTTP 201 (Created) caso o Ticket seja criado;
+            HTTP 400 (Bad Request) caso haja um erro.
+            </returns>
         </member>
         <member name="M:CentralAtendimento.Controllers.LogController.CreateTicketForPurchase(System.Net.Http.HttpRequestMessage,System.String,System.String,System.String,CentralAtendimento.Models.Messages)">
             <summary>
-            Cria um Ticket específico para uma compra
+            Método para gerar um Ticket para um determinado Cliente atrelado à um Compra.
             </summary>
             <param name="request"></param>
             <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
             <param name="clienteId">ID do cliente</param>
             <param name="compraID">ID da compra</param>
             <param name="msg">Mensagem passada atráves do Body do Request</param>
-            <returns></returns>
+            <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou o número do Ticket gerado.HTTP Response codes:
+            HTTP 201 (Created) caso o Ticket seja criado;
+            HTTP 400 (Bad Request) caso haja um erro.
+            </returns>
         </member>
         <member name="M:CentralAtendimento.Controllers.LogController.AddMsgToTicket(System.Net.Http.HttpRequestMessage,System.String,System.String,System.String,CentralAtendimento.Models.Messages)">
             <summary>
-            Adiciona uma mensagem em um Ticket
+            Método para adicionar uma mensagem à um determinado Ticket de um Cliente.
             </summary>
             <param name="request"></param>
             <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
             <param name="clienteId">ID do cliente</param>
             <param name="ticketId">ID do ticket</param>
             <param name="msg">Mensagem passada atráves do Body do Request</param>
-            <returns></returns>
+            <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou uma confirmação de mensagem adicionada. HTTP Response codes:
+            HTTP 200 (OK) caso a mensagem seja adicionada corretamente;
+            HTTP 400 (Bad Request) caso haja um erro;
+            HTTP 404 (Not Found) caso o Ticket não seja encontrado.
+            </returns>
         </member>
         <member name="M:CentralAtendimento.Controllers.LogController.ResolveTicket(System.Net.Http.HttpRequestMessage,System.String,System.String,System.String,CentralAtendimento.Models.Messages,CentralAtendimento.Models.Status)">
             <summary>
-            Encerra um Ticket
+            Método para alterar o Estado de um determinado Ticket de um Cliente.
             </summary>
             <param name="request"></param>
             <param name="siteId">ID único para da site (verificar contrato)</param>
@@ -552,6 +574,16 @@
             <param name="ticketId">ID do Ticket</param>
             <param name="msg">Mensagem passada atráves do Body do Request</param>
             <param name="code">Código de estado do Ticket</param>
+            <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou uma confirmação de alteração de Status do Ticket.HTTP Response codes:
+            HTTP 200 (OK) caso a mensagem seja adicionada corretamente e o status alterado;
+            HTTP 400 (Bad Request) caso haja um erro;
+            HTTP 404 (Not Found) caso o Ticket não seja encontrado.
+            </returns>
+        </member>
+        <member name="M:CentralAtendimento.Controllers.LogController.AllTicketsDEBUG">
+            <summary>
+            Metodo interno usado para DEBUG
+            </summary>
             <returns></returns>
         </member>
         <member name="T:CentralAtendimento.Models.Logs">

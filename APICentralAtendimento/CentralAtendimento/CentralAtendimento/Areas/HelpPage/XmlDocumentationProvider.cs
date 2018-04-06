@@ -120,7 +120,7 @@ namespace CentralAtendimento.Areas.HelpPage
                 XPathNavigator node = parentNode.SelectSingleNode(tagName);
                 if (node != null)
                 {
-                    return node.Value.Trim();
+                    return node.InnerXml;
                 }
             }
 
