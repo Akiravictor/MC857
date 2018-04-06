@@ -17,5 +17,7 @@ namespace CentralAtendimento.Models
         public DbSet<Messages> MessagesDb { get; set; }
 
         public DbSet<SiteRegisters> SiteRegistersDb { get; set; }
-    }
+
+		public DbSet<InternalLog> InternalLogDb { get; set; }
+	}
 }

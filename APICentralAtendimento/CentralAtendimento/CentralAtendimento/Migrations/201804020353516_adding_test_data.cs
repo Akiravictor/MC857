@@ -8,9 +8,9 @@ namespace CentralAtendimento.Migrations
         public override void Up()
         {
 			string sql = @"
-							insert into SiteRegisters values ('teste1');
-							insert into SiteRegisters values ('teste2');
-							insert into SiteRegisters values ('teste3');
+							insert into SiteRegisters values ('teste1','Site Teste 1');
+							insert into SiteRegisters values ('teste2','Site Teste 2');
+							insert into SiteRegisters values ('teste3','Site Teste 3');
 							
 							insert into Tickets values ('20180330203022','compra1','teste1', 1, 'cliente1');
 

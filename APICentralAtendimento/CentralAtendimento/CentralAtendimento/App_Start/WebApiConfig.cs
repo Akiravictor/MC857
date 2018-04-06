@@ -12,6 +12,9 @@ namespace CentralAtendimento
         public static void Register(HttpConfiguration config)
         {
 			// Web API configuration and services
+			config.Formatters.Remove(config.Formatters.FormUrlEncodedFormatter);
+			config.Formatters.Remove(config.Formatters.XmlFormatter);
+
 			var settings = config.Formatters.JsonFormatter.SerializerSettings;
 			settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 			settings.Formatting = Formatting.Indented;

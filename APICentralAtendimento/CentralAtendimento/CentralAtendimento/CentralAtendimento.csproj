@@ -35,6 +35,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\CentralAtendimento.xml</DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +46,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\CentralAtendimento.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -185,10 +188,10 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Methods\LogActions.cs" />
     <Compile Include="Migrations\201803302033006_Initial_Db_Structure.cs" />
     <Compile Include="Migrations\201803302033006_Initial_Db_Structure.Designer.cs">
       <DependentUpon>201803302033006_Initial_Db_Structure.cs</DependentUpon>
@@ -201,9 +204,15 @@
     <Compile Include="Migrations\201804020353516_adding_test_data.Designer.cs">
       <DependentUpon>201804020353516_adding_test_data.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804061509142_Add_InternalLog_Table.cs" />
+    <Compile Include="Migrations\201804061509142_Add_InternalLog_Table.Designer.cs">
+      <DependentUpon>201804061509142_Add_InternalLog_Table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\APIDbContext.cs" />
+    <Compile Include="Models\CustomDateConverter.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\InternalLog.cs" />
     <Compile Include="Models\Logs.cs" />
     <Compile Include="Models\Messages.cs" />
     <Compile Include="Models\SiteRegisters.cs" />
@@ -291,6 +300,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804020353516_adding_test_data.resx">
       <DependentUpon>201804020353516_adding_test_data.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804061509142_Add_InternalLog_Table.resx">
+      <DependentUpon>201804061509142_Add_InternalLog_Table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
