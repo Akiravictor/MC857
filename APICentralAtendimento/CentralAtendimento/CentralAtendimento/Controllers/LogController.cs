@@ -468,7 +468,7 @@ namespace CentralAtendimento.Controllers
 
 					la.SaveLog("DELETE", siteId, string.Format("Ticket Status Code changed from {0} to {1}", tktInDb.StatusId, code));
 
-					sysMsg.SystemMessage = string.Format("Message added successfully to Ticket {0} and Status changed from {1} to {2}", tktInDb.TicketId, tktInDb.SiteId, code);
+					sysMsg.SystemMessage = string.Format("Message added successfully to Ticket {0} and Status changed from {1} to {2}", tktInDb.TicketId, tktInDb.StatusId, code);
 					return request.CreateResponse(HttpStatusCode.OK, sysMsg);
 				}
 
