@@ -55,7 +55,7 @@ namespace CentralAtendimento.Controllers
 				if(tkts.Count == 0)
 				{
 					sysMsg.SystemMessage = "ClienteId not found!";
-					la.SaveLog("GET", siteId, sysMsg.SystemMessage);
+					la.SaveLog("GET", siteId, string.Format("ClienteId: {0} System Message: {1}", clienteId, sysMsg.SystemMessage));
 					return request.CreateResponse(HttpStatusCode.NotFound, sysMsg);
 				}
 				else
@@ -68,15 +68,15 @@ namespace CentralAtendimento.Controllers
 						tkt.MessageSize = tkt.MessagesList.Count;
 					}
 
-					la.SaveLog("GET", siteId, string.Format("Get all Tickets for {0}", clienteId));
+					la.SaveLog("GET", siteId, string.Format("ClienteId: {0} System Message: Get all Tickets from ClienteId", clienteId));
 					return request.CreateResponse(HttpStatusCode.OK, logResponse);
 				}
 
 			}
 			else
 			{
-				la.SaveLog("GET", siteId, string.Format("Tried to get all Tickets for {0}", clienteId));
 				sysMsg.SystemMessage = "Site key provided not recognized!";
+				la.SaveLog("GET", siteId, sysMsg.SystemMessage);
 				return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
 			}
 		}
@@ -113,7 +113,7 @@ namespace CentralAtendimento.Controllers
 				if (tkts.Count == 0)
 				{
 					sysMsg.SystemMessage = "ClienteId or CompraId not found!";
-					la.SaveLog("GET", siteId, sysMsg.SystemMessage);
+					la.SaveLog("GET", siteId, string.Format("ClienteId: {0} CompraId: {1} System Message: {2}", clienteId, compraId, sysMsg.SystemMessage));
 					return request.CreateResponse(HttpStatusCode.NotFound, sysMsg);
 				}
 				else
@@ -126,14 +126,14 @@ namespace CentralAtendimento.Controllers
 						tkt.MessageSize = tkt.MessagesList.Count;
 					}
 
-					la.SaveLog("GET", siteId, string.Format("Get Tickets for {0} by Purchase: {1}", clienteId, compraId));
+					la.SaveLog("GET", siteId, string.Format("ClienteId: {0} CompraId: {1} System Message: Get ticket by CompraId", clienteId, compraId));
 					return request.CreateResponse(HttpStatusCode.OK, logResponse);
 				}
 			}
 			else
 			{
-				la.SaveLog("GET", siteId, string.Format("Tried to get Tickets for {0} by Purchase: {1}", clienteId, compraId));
 				sysMsg.SystemMessage = "Site key provided not recognized!";
+				la.SaveLog("GET", siteId, sysMsg.SystemMessage);
 				return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
 			}
 		}
@@ -170,7 +170,7 @@ namespace CentralAtendimento.Controllers
 				if (tkts.Count == 0)
 				{
 					sysMsg.SystemMessage = "ClienteId or TicketId not found!";
-					la.SaveLog("GET", siteId, sysMsg.SystemMessage);
+					la.SaveLog("GET", siteId, string.Format("TicketId: {0} ClienteId: {1} System Message: {1}", ticketId, clienteId, sysMsg.SystemMessage));
 					return request.CreateResponse(HttpStatusCode.NotFound, sysMsg);
 				}
 				else
@@ -184,14 +184,14 @@ namespace CentralAtendimento.Controllers
 						tkt.MessageSize = tkt.MessagesList.Count;
 					}
 
-					la.SaveLog("GET", siteId, string.Format("Get Tickets for {0} by Ticket: {1}", clienteId, ticketId));
+					la.SaveLog("GET", siteId, string.Format("TicketId: {0} ClienteId: {1} System Message: Get ticket by Id", ticketId, clienteId));
 					return request.CreateResponse(HttpStatusCode.OK, logResponse);
 				}
 			}
 			else
 			{
-				la.SaveLog("GET", siteId, string.Format("Tried to get Tickets for {0} by Ticket: {1}", clienteId, ticketId));
 				sysMsg.SystemMessage = "Site key provided not recognized!";
+				la.SaveLog("GET", siteId, sysMsg.SystemMessage);
 				return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
 			}
 		}
@@ -242,7 +242,7 @@ namespace CentralAtendimento.Controllers
 
 					db.SaveChanges();
 
-					la.SaveLog("POST", siteId, string.Format("Generated a ticket for {0}, TicketId: {1}", clienteId, tktToDb.TicketId));
+					la.SaveLog("POST", siteId, string.Format("TicketId: {0} ClienteId: {1} System Message: Ticket Created", tktToDb.TicketId, clienteId));
 
 					sysMsg.SystemMessage = tktToDb.TicketId;
 					return request.CreateResponse(HttpStatusCode.Created, sysMsg);
@@ -308,7 +308,7 @@ namespace CentralAtendimento.Controllers
 
 					db.SaveChanges();
 
-					la.SaveLog("POST", siteId, string.Format("Generated a ticket for {0}, TicketId: {1}, CompraId: {2}", clienteId, tktToDb.TicketId, compraID));
+					la.SaveLog("POST", siteId, string.Format("TicketId: {0} ClienteId: {1} CompraId: {2} System Message: Ticket Created", tktToDb.TicketId, clienteId, compraID));
 
 					sysMsg.SystemMessage = tktToDb.TicketId;
 					return request.CreateResponse(HttpStatusCode.Created, sysMsg);
@@ -363,14 +363,14 @@ namespace CentralAtendimento.Controllers
 				if (tktInDb == null)
 				{
 					sysMsg.SystemMessage = "ClienteId or TicketId not found!";
-					la.SaveLog("PUT", siteId, sysMsg.SystemMessage);
+					la.SaveLog("PUT", siteId, string.Format("TicketId: {0} ClientId: {1} System Message: {2}", ticketId, clienteId, sysMsg.SystemMessage));
 					return request.CreateResponse(HttpStatusCode.NotFound, sysMsg);
 				}
 
 				else if (tktInDb.StatusId == Status.Closed || tktInDb.StatusId == Status.Canceled)
 				{
 					sysMsg.SystemMessage = "Cannot change a resolved ticket!";
-					la.SaveLog("PUT", siteId, sysMsg.SystemMessage);
+					la.SaveLog("PUT", siteId, string.Format("TicketId: {0} ClienteId: {1} Code: {2} System Message: {3}", ticketId, clienteId, tktInDb.StatusId, sysMsg.SystemMessage));
 					return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
 				}
 
@@ -381,7 +381,7 @@ namespace CentralAtendimento.Controllers
 					db.MessagesDb.Add(msg);
 					db.SaveChanges();
 
-					la.SaveLog("PUT", siteId, string.Format("Added a Message to ticket {0}, TicketId: {1}", clienteId, tktInDb.TicketId));
+					la.SaveLog("PUT", siteId, string.Format("TicketId: {0} ClienteId: {1} System Message: Added Message", ticketId, clienteId));
 
 					sysMsg.SystemMessage = string.Format("Message added successfully to Ticket {0}!", tktInDb.TicketId);
 					return request.CreateResponse(HttpStatusCode.OK, sysMsg);
@@ -435,7 +435,7 @@ namespace CentralAtendimento.Controllers
 				if (!Enum.IsDefined(typeof(Status), code))
 				{
 					sysMsg.SystemMessage = "Invalid code!";
-					la.SaveLog("DELETE", siteId, sysMsg.SystemMessage);
+					la.SaveLog("DELETE", siteId, string.Format("TicketId: {0} ClienteId: {1} Code: {2} System Message: {3}", ticketId, clienteId, code, sysMsg.SystemMessage));
 					return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
 				}
 
@@ -447,14 +447,14 @@ namespace CentralAtendimento.Controllers
 				if (tktInDb == null)
 				{
 					sysMsg.SystemMessage = "ClienteId or TicketId not found!";
-					la.SaveLog("DELETE", siteId, sysMsg.SystemMessage);
+					la.SaveLog("DELETE", siteId, string.Format("TicketId: {0} ClienteId: {1} Code: {2} System Message: {3}", ticketId, clienteId, code, sysMsg.SystemMessage));
 					return request.CreateResponse(HttpStatusCode.NotFound, sysMsg);
 				}
 
 				if (tktInDb.StatusId == Status.Closed || tktInDb.StatusId == Status.Canceled)
 				{
 					sysMsg.SystemMessage = "Cannot change a resolved ticket!";
-					la.SaveLog("DELETE", siteId, sysMsg.SystemMessage);
+					la.SaveLog("DELETE", siteId, string.Format("TicketId: {0} ClienteId: {1} CodeInDb: {2} CodeFromRequest: {3} System Message: {4}", ticketId, clienteId, tktInDb.StatusId, code, sysMsg.SystemMessage));
 					return request.CreateResponse(HttpStatusCode.BadRequest, sysMsg);
 				}
 
@@ -466,7 +466,7 @@ namespace CentralAtendimento.Controllers
 					db.MessagesDb.Add(msg);
 					db.SaveChanges();
 
-					la.SaveLog("DELETE", siteId, string.Format("Ticket Status Code changed from {0} to {1}", tktInDb.StatusId, code));
+					la.SaveLog("DELETE", siteId, string.Format("TicketId: {0} ClienteId: {1} System Message: Status changed from {2} to {3}", tktInDb.TicketId, clienteId, tktInDb.StatusId, code));
 
 					sysMsg.SystemMessage = string.Format("Message added successfully to Ticket {0} and Status changed from {1} to {2}", tktInDb.TicketId, tktInDb.StatusId, code);
 					return request.CreateResponse(HttpStatusCode.OK, sysMsg);
