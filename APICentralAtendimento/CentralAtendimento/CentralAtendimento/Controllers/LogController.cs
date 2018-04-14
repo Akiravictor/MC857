@@ -31,10 +31,10 @@ namespace CentralAtendimento.Controllers
 		/// <param name="request"></param>
 		/// <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
 		/// <param name="clienteId">ID do cliente</param>
-		/// <returns>Retorna um objeto JSON contendo uma lista de Tickets ou uma mensagem de erro do sistema. HTTP Response codes: 
-		/// HTTP 200 (OK) caso o Ticket seja encontrado;
-		/// HTTP 400 (Bad Request) caso haja erro;
-		/// HTTP 404 (Not Found) caso não encontre nenhum Ticket.
+		/// <returns>Retorna um objeto JSON contendo uma lista de Tickets ou uma mensagem de erro do sistema. HTTP Response codes:<br/>
+		/// HTTP 200 (OK) caso o Ticket seja encontrado;<br/>
+		/// HTTP 400 (Bad Request) caso haja erro;<br/>
+		/// HTTP 404 (Not Found) caso não encontre nenhum Ticket.<br/>
 		/// </returns>
 		[HttpGet]
 		[Route("tickets/{siteId}/{clienteId}")]
@@ -88,10 +88,10 @@ namespace CentralAtendimento.Controllers
 		/// <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
 		/// <param name="clienteId">ID do cliente</param>
 		/// <param name="compraId">ID da compra</param>
-		/// <returns>Retorna um objeto JSON contendo uma lista de Tickets ou uma Mensagem de Erro do Sistema. HTTP Response codes:
-		/// HTTP 200 (OK) caso o Ticket seja encontrado;
-		/// HTTP 400 (Bad Request) caso haja erro;
-		/// HTTP 404 (Not Found) caso não encontre nenhum Ticket.
+		/// <returns>Retorna um objeto JSON contendo uma lista de Tickets ou uma Mensagem de Erro do Sistema. HTTP Response codes:<br/>
+		/// HTTP 200 (OK) caso o Ticket seja encontrado;<br/>
+		/// HTTP 400 (Bad Request) caso haja erro;<br/>
+		/// HTTP 404 (Not Found) caso não encontre nenhum Ticket.<br/>
 		/// </returns>
 		[HttpGet]
 		[Route("tickets/{siteId}/{clienteId}/compra/{compraId}")]
@@ -145,10 +145,10 @@ namespace CentralAtendimento.Controllers
 		/// <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
 		/// <param name="clienteId">ID do cliente</param>
 		/// <param name="ticketId">ID do ticket</param>
-		/// <returns>Retorna um objeto JSON contendo uma lista de Tickets ou uma Mensagem de Erro do Sistema. HTTP Response codes:
-		/// HTTP 200 (OK) caso o Ticket seja encontrado;
-		/// HTTP 400 (Bad Request) caso haja erro;
-		/// HTTP 404 (Not Found) caso não encontre nenhum Ticket.
+		/// <returns>Retorna um objeto JSON contendo uma lista de Tickets ou uma Mensagem de Erro do Sistema. HTTP Response codes:<br/>
+		/// HTTP 200 (OK) caso o Ticket seja encontrado;<br/>
+		/// HTTP 400 (Bad Request) caso haja erro;<br/>
+		/// HTTP 404 (Not Found) caso não encontre nenhum Ticket.<br/>
 		/// </returns>
 		[HttpGet]
 		[Route("tickets/{siteId}/{clienteId}/ticket/{ticketId}")]
@@ -203,9 +203,9 @@ namespace CentralAtendimento.Controllers
 		/// <param name="siteId">ID único para cada site/módulo (verificar contrato)</param>
 		/// <param name="clienteId">ID do cliente</param>
 		/// <param name="msg">Mensagem passada atráves do Body do Request</param>
-		/// <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou o número do Ticket gerado. HTTP Response codes:
-		/// HTTP 201 (Created) caso o Ticket seja criado;
-		/// HTTP 400 (Bad Request) caso haja um erro.
+		/// <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou o número do Ticket gerado. HTTP Response codes:<br/>
+		/// HTTP 201 (Created) caso o Ticket seja criado;<br/>
+		/// HTTP 400 (Bad Request) caso haja um erro.<br/>
 		/// </returns>
 		[HttpPost]
 		[Route("tickets/{siteId}/{clienteId}")]
@@ -268,9 +268,9 @@ namespace CentralAtendimento.Controllers
 		/// <param name="clienteId">ID do cliente</param>
 		/// <param name="compraID">ID da compra</param>
 		/// <param name="msg">Mensagem passada atráves do Body do Request</param>
-		/// <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou o número do Ticket gerado.HTTP Response codes:
-		/// HTTP 201 (Created) caso o Ticket seja criado;
-		/// HTTP 400 (Bad Request) caso haja um erro.
+		/// <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou o número do Ticket gerado.HTTP Response codes:<br/>
+		/// HTTP 201 (Created) caso o Ticket seja criado;<br/>
+		/// HTTP 400 (Bad Request) caso haja um erro.<br/>
 		/// </returns>
 		[HttpPost]
 		[Route("tickets/{siteId}/{clienteId}/compra/{compraID}")]
@@ -334,10 +334,10 @@ namespace CentralAtendimento.Controllers
 		/// <param name="clienteId">ID do cliente</param>
 		/// <param name="ticketId">ID do ticket</param>
 		/// <param name="msg">Mensagem passada atráves do Body do Request</param>
-		/// <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou uma confirmação de mensagem adicionada. HTTP Response codes:
-		/// HTTP 200 (OK) caso a mensagem seja adicionada corretamente;
-		/// HTTP 400 (Bad Request) caso haja um erro;
-		/// HTTP 404 (Not Found) caso o Ticket não seja encontrado.
+		/// <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou uma confirmação de mensagem adicionada. HTTP Response codes:<br/>
+		/// HTTP 200 (OK) caso a mensagem seja adicionada corretamente;<br/>
+		/// HTTP 400 (Bad Request) caso haja um erro;<br/>
+		/// HTTP 404 (Not Found) caso o Ticket não seja encontrado.<br/>
 		/// </returns>
 		[HttpPut]
 		[Route("tickets/{siteId}/{clienteId}/ticket/{ticketId}")]
@@ -411,10 +411,10 @@ namespace CentralAtendimento.Controllers
 		/// <param name="ticketId">ID do Ticket</param>
 		/// <param name="msg">Mensagem passada atráves do Body do Request</param>
 		/// <param name="code">Código de estado do Ticket</param>
-		/// <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou uma confirmação de alteração de Status do Ticket.HTTP Response codes:
-		/// HTTP 200 (OK) caso a mensagem seja adicionada corretamente e o status alterado;
-		/// HTTP 400 (Bad Request) caso haja um erro;
-		/// HTTP 404 (Not Found) caso o Ticket não seja encontrado.
+		/// <returns>Retorna um objeto JSON contendo uma Mensagem do Sistema. Podendo ser uma mensagem de erro ou uma confirmação de alteração de Status do Ticket.HTTP Response codes:<br/>
+		/// HTTP 200 (OK) caso a mensagem seja adicionada corretamente e o status alterado;<br/>
+		/// HTTP 400 (Bad Request) caso haja um erro;<br/>
+		/// HTTP 404 (Not Found) caso o Ticket não seja encontrado.<br/>
 		/// </returns>
 		[HttpDelete]
 		[Route("tickets/{siteId}/{clienteId}/ticket/{ticketId}")]

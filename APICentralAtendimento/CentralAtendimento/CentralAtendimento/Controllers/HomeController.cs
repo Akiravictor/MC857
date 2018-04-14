@@ -10,7 +10,7 @@ namespace CentralAtendimento.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "MC857 - API Central de Atendimento";
 
             return View();
         }

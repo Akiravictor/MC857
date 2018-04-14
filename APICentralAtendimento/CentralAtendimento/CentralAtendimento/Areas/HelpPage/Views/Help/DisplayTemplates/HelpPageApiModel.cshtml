@@ -18,11 +18,11 @@
 
     <h3>Body Parameters</h3>
 
-    <p>@Model.RequestDocumentation</p>
+    @Html.Raw(Model.RequestDocumentation)
 
     @if (Model.RequestModelDescription != null)
     {
-        @Html.DisplayFor(m => m.RequestModelDescription.ModelType, "ModelDescriptionLink", new { modelDescription = Model.RequestModelDescription })
+	<h5>@Html.DisplayFor(m => m.RequestModelDescription.ModelType, "ModelDescriptionLink", new { modelDescription = Model.RequestModelDescription })</h5>
         if (Model.RequestBodyParameters != null)
         {
             @Html.DisplayFor(m => m.RequestBodyParameters, "Parameters")
@@ -43,11 +43,11 @@
 
     <h3>Resource Description</h3>
 
-    <p>@description.ResponseDescription.Documentation</p>
+    @Html.Raw(description.ResponseDescription.Documentation)
 
     @if (Model.ResourceDescription != null)
     {
-        @Html.DisplayFor(m => m.ResourceDescription.ModelType, "ModelDescriptionLink", new { modelDescription = Model.ResourceDescription })
+		<h5>@Html.DisplayFor(m => m.ResourceDescription.ModelType, "ModelDescriptionLink", new { modelDescription = Model.ResourceDescription })</h5>
         if (Model.ResourceProperties != null)
         {
             @Html.DisplayFor(m => m.ResourceProperties, "Parameters")
