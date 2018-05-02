@@ -484,6 +484,7 @@ namespace CentralAtendimento.Controllers
 			}
 		}
 
+#if DEBUG
 		/// <summary>
 		/// Metodo interno usado para DEBUG
 		/// </summary>
@@ -506,6 +507,7 @@ namespace CentralAtendimento.Controllers
 			}
 			return logResponse;
 		}
+#endif
 
 	}
 }

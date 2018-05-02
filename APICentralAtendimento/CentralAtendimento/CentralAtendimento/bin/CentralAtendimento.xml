@@ -580,12 +580,6 @@
             HTTP 404 (Not Found) caso o Ticket não seja encontrado.<br/>
             </returns>
         </member>
-        <member name="M:CentralAtendimento.Controllers.LogController.AllTicketsDEBUG">
-            <summary>
-            Metodo interno usado para DEBUG
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:CentralAtendimento.Models.Logs">
             <summary>
             Objeto para retorno dos Tickets
